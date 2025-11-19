@@ -2,6 +2,7 @@ package org.boolmberg.datawarehouse.api;
 
 import lombok.extern.slf4j.Slf4j;
 import org.boolmberg.datawarehouse.exception.DuplicateDealException;
+import org.boolmberg.datawarehouse.exception.FxDealNotFoundException;
 import org.boolmberg.datawarehouse.exception.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DuplicateDealException.class)
     public ResponseEntity<ErrorResponse> handleDuplicateDealException(DuplicateDealException ex) {
-        log.error("Duplicate deal error: {}", ex.getMessage());
+        log.error("Duplicate deal error: {}", ex.getMessage(), ex);
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .timestamp(LocalDateTime.now())
@@ -46,10 +47,23 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
+    @ExceptionHandler(FxDealNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleFxDealNotFoundException(FxDealNotFoundException ex) {
+        log.error(ex.getMessage(), ex);
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.NOT_FOUND.value())
+                .error("Not found")
+                .message(ex.getMessage())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex) {
-        log.error("Method argument validation error: {}", ex.getMessage());
+        log.error("Method argument validation error: {}", ex.getMessage(), ex);
 
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach(error -> {

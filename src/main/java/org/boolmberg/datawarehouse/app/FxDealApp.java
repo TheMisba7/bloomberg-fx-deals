@@ -6,6 +6,7 @@ import org.boolmberg.datawarehouse.dto.FxDealDTO;
 import org.boolmberg.datawarehouse.dto.ImportSummary;
 import org.boolmberg.datawarehouse.exception.DuplicateDealException;
 import org.boolmberg.datawarehouse.exception.ValidationException;
+import org.boolmberg.datawarehouse.model.FxDeal;
 import org.boolmberg.datawarehouse.model.ImportError;
 import org.boolmberg.datawarehouse.model.ImportErrorType;
 import org.boolmberg.datawarehouse.service.ErrorService;
@@ -76,5 +77,30 @@ public class FxDealApp {
         List<FxDealDTO> deals = new ArrayList<>();
         FileUtils.pareFile(file, deals);
         return importDeals(deals);
+    }
+
+    public FxDealDTO getFxDealById(String dealId) {
+        FxDeal byDealId = fxDealService.getByDealId(dealId);
+        return FxDealDTO.builder()
+                .dealId(byDealId.getDealId())
+                .currencyTo(byDealId.getCurrencyTo())
+                .currencyFrom(byDealId.getCurrencyFrom())
+                .dealAmount(byDealId.getDealAmount())
+                .exchangeRate(byDealId.getExchangeRate())
+                .dealTimestamp(byDealId.getDealTimestamp())
+                .build();
+    }
+
+    public List<FxDealDTO> findAllDeals() {
+        return fxDealService.findAllDeals()
+                .stream().map(deal -> FxDealDTO.builder()
+                        .dealId(deal.getDealId())
+                        .currencyTo(deal.getCurrencyTo())
+                        .currencyFrom(deal.getCurrencyFrom())
+                        .dealAmount(deal.getDealAmount())
+                        .exchangeRate(deal.getExchangeRate())
+                        .dealTimestamp(deal.getDealTimestamp())
+                        .build())
+                .toList();
     }
 }

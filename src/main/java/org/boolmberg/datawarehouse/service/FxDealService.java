@@ -5,10 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.boolmberg.datawarehouse.dao.FxDealDao;
 import org.boolmberg.datawarehouse.dto.FxDealDTO;
 import org.boolmberg.datawarehouse.exception.DuplicateDealException;
+import org.boolmberg.datawarehouse.exception.FxDealNotFoundException;
 import org.boolmberg.datawarehouse.model.FxDeal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -35,5 +38,14 @@ public class FxDealService {
         }
 
         return fxDealDao.save(fxDeal);
+    }
+
+    public FxDeal getByDealId(String dealId) {
+        return fxDealDao.findByDealId(dealId)
+                .orElseThrow(() -> new FxDealNotFoundException("Couldn't find deal with dealId: " + dealId));
+    }
+
+    public List<FxDeal> findAllDeals() {
+        return fxDealDao.findAll();
     }
 }
