@@ -327,6 +327,7 @@ bloomberg-datawarehouse/
 │   │   │   │   └── ImportSummary.java
 │   │   │   ├── exception/              # Custom Exceptions
 │   │   │   │   ├── DuplicateDealException.java
+│   │   │   │   ├── FxDealNotFoundException.java
 │   │   │   │   ├── ValidationException.java
 │   │   │   │   └── InvalidFileException.java
 │   │   │   ├── model/                  # JPA Entities
