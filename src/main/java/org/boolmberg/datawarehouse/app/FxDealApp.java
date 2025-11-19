@@ -6,6 +6,7 @@ import org.boolmberg.datawarehouse.dto.FxDealDTO;
 import org.boolmberg.datawarehouse.dto.ImportSummary;
 import org.boolmberg.datawarehouse.exception.DuplicateDealException;
 import org.boolmberg.datawarehouse.exception.ValidationException;
+import org.boolmberg.datawarehouse.model.ImportError;
 import org.boolmberg.datawarehouse.model.ImportErrorType;
 import org.boolmberg.datawarehouse.service.ErrorService;
 import org.boolmberg.datawarehouse.service.FxDealService;
@@ -53,26 +54,18 @@ public class FxDealApp {
             } catch (ValidationException e) {
                 log.error(e.getMessage(), e);
                 importSummary.setFailedImports(importSummary.getFailedImports() + 1);
-                importSummary.addError(ImportSummary.ImportErrorDto.builder()
-                        .dealId(deal.getDealId())
-                        .errorMessage(e.getMessage())
-                        .build());
-                errorService.addImportError(rowNumber, deal.getDealId(), e.getMessage(), ImportErrorType.VALIDATION);
+                ImportError error = errorService.addImportError(rowNumber, deal.getDealId(), e.getMessage(), ImportErrorType.VALIDATION);
+                importSummary.addError(error);
             } catch (DuplicateDealException e) {
                 log.error(e.getMessage(), e);
                 importSummary.setDuplicateImports(importSummary.getDuplicateImports() + 1);
-                importSummary.addError(ImportSummary.ImportErrorDto.builder()
-                        .dealId(deal.getDealId())
-                        .errorMessage(e.getMessage())
-                        .build());
-                errorService.addImportError(rowNumber, deal.getDealId(), e.getMessage(), ImportErrorType.DUPLICATE);
+                ImportError error = errorService.addImportError(rowNumber, deal.getDealId(), e.getMessage(), ImportErrorType.DUPLICATE);
+                importSummary.addError(error);
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
                 importSummary.setFailedImports(importSummary.getFailedImports() + 1);
-                importSummary.addError(ImportSummary.ImportErrorDto.builder()
-                        .dealId(deal.getDealId())
-                        .errorMessage("internal error").build());
-                errorService.addImportError(rowNumber, deal.getDealId(), e.getMessage(), ImportErrorType.UNKNOWN);
+                ImportError error = errorService.addImportError(rowNumber, deal.getDealId(), e.getMessage(), ImportErrorType.UNKNOWN);
+                importSummary.addError(error);
             }
         }
 

@@ -34,6 +34,7 @@ public class FxDealValidator {
         validateDifferentCurrencies(dealDto.getCurrencyFrom(), dealDto.getCurrencyTo());
         validateDealTimestamp(dealDto.getDealTimestamp());
         validateDealAmount(dealDto.getDealAmount());
+        validateExchangeRate(dealDto.getExchangeRate());
     }
 
     private void validateDealId(String dealId) {
@@ -73,6 +74,11 @@ public class FxDealValidator {
         }
     }
 
+    private void validateExchangeRate(Double exchangeRate) {
+        if (exchangeRate == null) {
+            throw new ValidationException("Exchange rate cannot be null");
+        }
+    }
     private void validateDealAmount(BigDecimal dealAmount) {
         if (dealAmount == null) {
             throw new ValidationException("Deal amount cannot be null");

@@ -14,7 +14,7 @@ public class ErrorService {
 
     private final ImportErrorTypeDao importErrorTypeDao;
 
-    public void addImportError(Integer rowNumber, String dealId,
+    public ImportError addImportError(Integer rowNumber, String dealId,
                                String message, ImportErrorType type) {
         ImportError error = ImportError.builder()
                 .rowNumber(rowNumber)
@@ -23,6 +23,6 @@ public class ErrorService {
                 .dealId(dealId)
                 .build();
 
-        importErrorTypeDao.save(error);
+       return importErrorTypeDao.save(error);
     }
 }

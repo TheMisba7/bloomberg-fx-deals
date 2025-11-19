@@ -18,7 +18,7 @@ public class FxDealImportAspect {
 
     private final FxDealValidator validator;
 
-    @Around("execution(* org.boolmberg.datawarehouse.service.FxDealService.importDeal(..))")
+    @Around("execution(* org.boolmberg.datawarehouse.service.FxDealService.importDeal(..)) && args(dealDto)")
     public Object aroundImportDeal(ProceedingJoinPoint joinPoint, FxDealDTO dealDto) throws Exception {
         log.info("Starting import: {}", dealDto.getDealId());
         validator.validate(dealDto);

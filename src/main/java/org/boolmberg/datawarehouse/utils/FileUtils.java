@@ -32,15 +32,16 @@ public final class FileUtils {
         if (file == null || file.isEmpty()) {
             throw new InvalidFileException("file is invalid");
         }
-
-        String contentType = file.getContentType();
-        if (contentType == null ||
-                !(contentType.equalsIgnoreCase("text/csv") ||
-                        contentType.equalsIgnoreCase("application/vnd.ms-excel") ||
-                        contentType.equalsIgnoreCase("text/plain"))) {
-
-            throw new InvalidFileException("Invalid file type. Expected CSV");
-        }
+//
+//        String contentType = file.getContentType();
+//        log.info("contentType: {}", contentType);
+//        if (contentType == null ||
+//                !(contentType.equalsIgnoreCase("text/csv") ||
+//                        contentType.equalsIgnoreCase("application/vnd.ms-excel") ||
+//                        contentType.equalsIgnoreCase("text/plain"))) {
+//
+//            throw new InvalidFileException("Invalid file type. Expected CSV");
+//        }
 
         try (CSVReader csvReader = new CSVReader(new InputStreamReader(file.getInputStream()))) {
             List<String[]> records = csvReader.readAll();
@@ -103,6 +104,7 @@ public final class FileUtils {
         String toCurrency = row[2] != null ? row[2].trim().toUpperCase() : null;
         LocalDateTime dealTimestamp = parseTimestamp(row[3], rowNumber);
         BigDecimal dealAmount = parseAmount(row[4], rowNumber);
+        Double exchangeRte = parseAmount(row[5], rowNumber).doubleValue();
 
         return FxDealDTO.builder()
                 .dealId(dealUniqueId)
@@ -110,6 +112,7 @@ public final class FileUtils {
                 .currencyTo(toCurrency)
                 .dealTimestamp(dealTimestamp)
                 .dealAmount(dealAmount)
+                .exchangeRate(exchangeRte)
                 .build();
     }
 

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.boolmberg.datawarehouse.model.ImportError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,23 +21,12 @@ public class ImportSummary {
     private int duplicateImports;
 
 
-    public void addError(ImportErrorDto importErrorDto) {
+    public void addError(ImportError error) {
         if (errors == null)
             errors = new ArrayList<>();
-        errors.add(importErrorDto);
+        errors.add(error);
     }
 
     @Builder.Default
-    private List<ImportErrorDto> errors = new ArrayList<>();
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public static class ImportErrorDto {
-        private Integer rowNumber;
-        private String dealId;
-        private String errorMessage;
-        private String errorType;
-    }
+    private List<ImportError> errors = new ArrayList<>();
 }

@@ -25,6 +25,7 @@ public class FxDealService {
                 .currencyTo(dto.getCurrencyTo())
                 .currencyFrom(dto.getCurrencyFrom())
                 .dealAmount(dto.getDealAmount())
+                .dealTimestamp(dto.getDealTimestamp())
                 .exchangeRate(dto.getExchangeRate())
                 .build();
 
