@@ -25,14 +25,6 @@
 @REM   MVNW_REPOURL - repo url base for downloading maven distribution
 @REM   MVNW_USERNAME/MVNW_PASSWORD - user and password for downloading maven
 @REM   MVNW_VERBOSE - true: enable verbose log; others: silence the output
-@REM ----------------------------------------------------------------------------
-
-rem --- force Java 21 ---
-set JAVA_HOME=C:\Users\nuitee\.jdks\openjdk-21.0.1
-
-rem -----------------------------------------------------------------------------
-rem Find Java, set Java executable
-rem ---
 
 @IF "%__MVNW_ARG0_NAME__%"=="" (SET __MVNW_ARG0_NAME__=%~nx0)
 @SET __MVNW_CMD__=
