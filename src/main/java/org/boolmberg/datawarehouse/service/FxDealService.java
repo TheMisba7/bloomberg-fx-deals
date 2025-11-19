@@ -6,7 +6,6 @@ import org.boolmberg.datawarehouse.dao.FxDealDao;
 import org.boolmberg.datawarehouse.dto.FxDealDTO;
 import org.boolmberg.datawarehouse.exception.DuplicateDealException;
 import org.boolmberg.datawarehouse.model.FxDeal;
-import org.boolmberg.datawarehouse.validator.FxDealValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class FxDealService {
 
     private final FxDealDao fxDealDao;
-    private final FxDealValidator fxDealValidator;
 
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)

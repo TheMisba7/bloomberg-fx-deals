@@ -2,11 +2,9 @@ package org.boolmberg.datawarehouse.app;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.boolmberg.datawarehouse.dao.ImportErrorTypeDao;
 import org.boolmberg.datawarehouse.dto.FxDealDTO;
 import org.boolmberg.datawarehouse.dto.ImportSummary;
 import org.boolmberg.datawarehouse.exception.DuplicateDealException;
-import org.boolmberg.datawarehouse.exception.InvalidFileException;
 import org.boolmberg.datawarehouse.exception.ValidationException;
 import org.boolmberg.datawarehouse.model.ImportErrorType;
 import org.boolmberg.datawarehouse.service.ErrorService;
