@@ -1,5 +1,6 @@
 package org.boolmberg.datawarehouse.api;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.boolmberg.datawarehouse.app.FxDealApp;
 import org.boolmberg.datawarehouse.dto.FxDealDTO;
@@ -9,17 +10,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RequestMapping("/fx-deals")
+@RestController
 public class FxDealApi {
 
     private final FxDealApp fxDealApp;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ImportSummary importDeal(FxDealDTO dto) {
+    public ImportSummary importDeal(@Valid FxDealDTO dto) {
         return fxDealApp.importDeal(dto);
     }
 

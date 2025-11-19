@@ -11,9 +11,11 @@ import org.boolmberg.datawarehouse.exception.ValidationException;
 import org.boolmberg.datawarehouse.model.ImportErrorType;
 import org.boolmberg.datawarehouse.service.ErrorService;
 import org.boolmberg.datawarehouse.service.FxDealService;
+import org.boolmberg.datawarehouse.utils.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -80,19 +82,8 @@ public class FxDealApp {
     }
 
     public ImportSummary uploadCsv(MultipartFile file) {
-        if (file == null || file.isEmpty()) {
-            throw new InvalidFileException("file is invalid");
-        }
-
-        String contentType = file.getContentType();
-        if (contentType == null ||
-                !(contentType.equalsIgnoreCase("text/csv") ||
-                        contentType.equalsIgnoreCase("application/vnd.ms-excel") ||
-                        contentType.equalsIgnoreCase("text/plain"))) {
-
-            throw new InvalidFileException("Invalid file type. Expected CSV");
-        }
-
-        return null;
+        List<FxDealDTO> deals = new ArrayList<>();
+        FileUtils.pareFile(file, deals);
+        return importDeals(deals);
     }
 }
