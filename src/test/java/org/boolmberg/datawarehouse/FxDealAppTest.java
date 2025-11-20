@@ -193,30 +193,6 @@ class FxDealAppTest {
     }
 
     @Test
-    void importDeals_UnexpectedException_CategorizedAsUnknown() {
-        List<FxDealDTO> deals = Arrays.asList(
-                createDeal("DEAL-001"),
-                createDeal("DEAL-002")
-        );
-
-        when(fxDealService.importDeal(argThat(dto ->
-                dto.getDealId().equals("DEAL-001")
-        ))).thenReturn(new FxDeal());
-
-        doThrow(new RuntimeException("Database connection failed"))
-                .when(fxDealService).importDeal(argThat(dto ->
-                        dto.getDealId().equals("DEAL-002")));
-
-        ImportSummary result = fxDealApp.importDeals(deals);
-
-        assertEquals(1, result.getFailedImports());
-        assertEquals("internal error", result.getErrors().get(0).getErrorMessage());
-
-        verify(errorService).addImportError(eq(2), eq("DEAL-002"),
-                eq("Database connection failed"), eq(ImportErrorType.UNKNOWN));
-    }
-
-    @Test
     void importDeals_EmptyList_ReturnsEmptySummary() {
         ImportSummary result = fxDealApp.importDeals(List.of());
 

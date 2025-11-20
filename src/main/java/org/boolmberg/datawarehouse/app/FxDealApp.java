@@ -55,18 +55,33 @@ public class FxDealApp {
             } catch (ValidationException e) {
                 log.error(e.getMessage(), e);
                 importSummary.setFailedImports(importSummary.getFailedImports() + 1);
-                ImportError error = errorService.addImportError(rowNumber, deal.getDealId(), e.getMessage(), ImportErrorType.VALIDATION);
-                importSummary.addError(error);
+                errorService.addImportError(rowNumber, deal.getDealId(), e.getMessage(), ImportErrorType.VALIDATION);
+                importSummary.addError(ImportSummary.ImportErrorDto.builder()
+                                .errorMessage(e.getMessage())
+                                .dealId(deal.getDealId())
+                                .errorType(ImportErrorType.VALIDATION.name())
+                                .rowNumber(rowNumber)
+                        .build());
             } catch (DuplicateDealException e) {
                 log.error(e.getMessage(), e);
                 importSummary.setDuplicateImports(importSummary.getDuplicateImports() + 1);
-                ImportError error = errorService.addImportError(rowNumber, deal.getDealId(), e.getMessage(), ImportErrorType.DUPLICATE);
-                importSummary.addError(error);
+                errorService.addImportError(rowNumber, deal.getDealId(), e.getMessage(), ImportErrorType.DUPLICATE);
+                importSummary.addError(ImportSummary.ImportErrorDto.builder()
+                        .errorMessage(e.getMessage())
+                        .dealId(deal.getDealId())
+                        .errorType(ImportErrorType.DUPLICATE.name())
+                        .rowNumber(rowNumber)
+                        .build());
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
                 importSummary.setFailedImports(importSummary.getFailedImports() + 1);
-                ImportError error = errorService.addImportError(rowNumber, deal.getDealId(), e.getMessage(), ImportErrorType.UNKNOWN);
-                importSummary.addError(error);
+                errorService.addImportError(rowNumber, deal.getDealId(), e.getMessage(), ImportErrorType.UNKNOWN);
+                importSummary.addError(ImportSummary.ImportErrorDto.builder()
+                        .errorMessage(e.getMessage())
+                        .dealId(deal.getDealId())
+                        .errorType(ImportErrorType.UNKNOWN.name())
+                        .rowNumber(rowNumber)
+                        .build());
             }
         }
 

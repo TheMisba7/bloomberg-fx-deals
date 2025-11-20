@@ -24,7 +24,7 @@ run: ## Start the application with Docker Compose
 	@echo "Starting FX Deals Warehouse..."
 	docker-compose up --build -d
 	@echo "Application is starting..."
-	@echo "API will be available at: http://localhost:8080/api/fx-deals"
+	@echo "API will be available at: http://localhost:8080/fx-deals"
 	@echo "Waiting for application to be ready..."
 	@sleep 15
 	@echo "Application is ready!"
@@ -54,6 +54,6 @@ restart: stop run ## Restart the application
 
 quick-test: ## Run a quick API test
 	@echo "Testing single deal import..."
-	curl -X POST http://localhost:8080/api/fx-deals \
+	curl -X POST http://localhost:8080/fx-deals \
 		-H "Content-Type: application/json" \
-		-d '{"dealUniqueId":"TEST-001","fromCurrencyIsoCode":"USD","toCurrencyIsoCode":"EUR","dealTimestamp":"2024-01-01T10:00:00","dealAmount":1000.50}' | jq
+		-d '{"dealId":"TEST-001","currencyFrom":"USD","currencyTo":"EUR","dealTimestamp":"2024-01-01T10:00:00","dealAmount":1000.50, "exchangeRate":0.8273973}' | jq
